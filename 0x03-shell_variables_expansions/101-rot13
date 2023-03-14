@@ -1,2 +1,2 @@
 #!/bin/bash
-tr "41574553504D4545" "AWESOME"
+tr 'asdfghssnkjh' 'awesome'
