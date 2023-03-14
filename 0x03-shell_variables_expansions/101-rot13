@@ -1,2 +1,2 @@
 #!/bin/bash
-tr 'A-za-z' 'N-ZA-Mn-za-m'
+tr '65-87-69-83-79-77-69' 'A-W-E-S-O-M-E'
