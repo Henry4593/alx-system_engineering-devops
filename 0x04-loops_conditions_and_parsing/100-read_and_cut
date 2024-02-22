@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # this script displays the content of the file /etc/passwd.
 
-while read line; do
+while read -r line; do
 	USERNAME=$(echo "$line" | cut -d: -f1)
 	USER_ID=$(echo "$line" | cut -d: -f3)
 	HOME=$(echo "$line" | cut -d: -f6)
