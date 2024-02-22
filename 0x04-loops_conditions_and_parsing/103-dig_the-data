@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# This script parses apache log file and extract information from it
+
+awk '{print $1 " " $9}' apache-access.log | sort | uniq -c | sort -nr

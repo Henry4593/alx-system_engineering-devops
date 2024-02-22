@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# Shows current dir content without number and dash.
+
+LIST="$(ls)"
+for x in $LIST; do
+	echo "$x" | cut -d '-' -f 2
+done
