@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# This script displays a list of currently running processes in a user-friendly
+# format.
+
+# Features:
+# - Shows all processes, including those without a TTY (terminal).
+# - Displays processes for all users.
+# - Presents the information in a clear and easy-to-read format.
+# - Visualizes the process hierarchy for better understanding.
+
+ps -auxf

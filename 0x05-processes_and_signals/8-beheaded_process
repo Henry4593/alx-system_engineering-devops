@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# Terminates processes named "bash" containing the string "7-highlander
+# shellcheck disable=SC2009
+program_pid=()
+readarray -t program_pid < <(pgrep -la -x "bash.*" | grep '7-highlander' | cut -d ' ' -f 1)
+for ((idx = 0; idx < "${#program_pid[@]}"; idx++)) do
+  kill -s SIGKILL "${program_pid[idx]}"
+done
