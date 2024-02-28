@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# Shows open network connections (listening sockets) and identifies the
+# associated program (PID and name).
+netstat -lp
