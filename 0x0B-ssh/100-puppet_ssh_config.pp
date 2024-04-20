@@ -1,4 +1,5 @@
-# Configurate SSH to connect to a server without typing a password.
+# This Puppet manifest configures the SSH client to connect to a server
+# without typing a password.
 file_line { 'Declare identity file':
   ensure  => 'present',
   path    => '/etc/ssh/ssh_config',
