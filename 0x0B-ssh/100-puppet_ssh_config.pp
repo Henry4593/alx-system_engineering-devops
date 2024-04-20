@@ -1,20 +1,19 @@
 # make changes to 'ssh_config' file using puppet codes
-file { '/etc/ssh/ssh_config':
-  # Ensure the file is present
+# Define a class for managing SSH client configuration
+class { 'ssh::client': }
+
+# Configure IdentityFile
+file_line { 'Declare identity file':
   ensure => present,
-  # Define the content of the file
-  content => <<EOF
-# SSH client configuration
-Host *
-  # Use the SSH key from ~/.ssh/school
-  IdentityFile  ~/.ssh/school
-  # Disable password authentication
-  PasswordAuthentication no
-EOF
-  # Owner and group permissions (optional)
-  # owner => 'root',
-  # group => 'root',
-  # File permissions (optional)
-  # mode => '0644',
+  path   => '/etc/ssh/ssh_config',
+  line   => 'IdentityFile  ~/.ssh/school',
+  match  => absent,
 }
 
+# Disable PasswordAuthentication
+file_line { 'Turn off passwd auth':
+  ensure => present,
+  path   => '/etc/ssh_config',
+  line   => 'PasswordAuthentication no',
+  match  => absent,
+}
