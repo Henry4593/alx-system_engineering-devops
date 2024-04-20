@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# Establishes an SSH connection to the user 'ubuntu' using the private key
+# located at ~/.ssh/school
+ssh ubuntu -i ~/.ssh/school
+
