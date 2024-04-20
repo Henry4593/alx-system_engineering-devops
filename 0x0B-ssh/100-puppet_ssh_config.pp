@@ -1,19 +1,12 @@
-# make changes to 'ssh_config' file using puppet codes
-# Define a class for managing SSH client configuration
-class { 'ssh::client': }
-
-# Configure IdentityFile
+# Configurate SSH to connect to a server without typing a password.
 file_line { 'Declare identity file':
-  ensure => present,
-  path   => '/etc/ssh/ssh_config',
-  line   => 'IdentityFile  ~/.ssh/school',
-  match  => absent,
+  ensure  => 'present',
+  path    => '/etc/ssh/ssh_config',
+  line    => '    IdentityFile ~/.ssh/school'
 }
 
-# Disable PasswordAuthentication
-file_line { 'Turn off passwd auth':
-  ensure => present,
-  path   => '/etc/ssh_config',
-  line   => 'PasswordAuthentication no',
-  match  => absent,
+file_line { 'Turn off passwd authentication':
+  ensure  => 'present',
+  path    => '/etc/ssh/ssh_config',
+  line    => '    PasswordAuthentication no'
 }
