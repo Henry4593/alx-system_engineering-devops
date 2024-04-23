@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# implement redirections using sed
+patch_string="server_name _;\n\trewrite ^\/redirect_me https:\/\/github.com\/Henry4593 permanent;"
+sudo sed -i 's/server_name _;/'"$patch_string"'/' /etc/nginx/sites-enabled/default
+# test if running successfully
+sudo nginx -t
+# service reload
+sudo service nginx restart
