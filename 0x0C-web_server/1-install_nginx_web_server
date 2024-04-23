@@ -1,19 +1,12 @@
-#!/usr/bin/env bash
-
-# Prepare the System (Update package lists)
+#!/usr/bin/env bash                                                                           
+## Install nginx web server
+### Update operating system packages
 sudo apt-get -y update
-
-# Install Nginx Web Server
+### Install nginx                                                                                         
 sudo apt-get -y install nginx
-
-# allow through firewall
-sudo ufw allow 'Nginx HTTP'
-
-# Grant Ownership for Web Content (Change owner of /var/www to ubuntu user)
-# sudo chown -R ubuntu /var/www
-
-# Craft a Simple Welcome Message(Write "Hello World" to the default index page)
-sudo echo "Hello World!" > /var/www/html/index.nginx-debian.html
-
-# Launch the Web Server (Start the Nginx service)
+### Add permission modify /var/www
+sudo chown -R ubuntu /var/www
+### Change default content of index.html for nginx
+echo "Hello World" > /var/www/html/index.nginx-debian.html
+### Service start
 sudo service nginx start
