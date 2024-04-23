@@ -4,10 +4,12 @@ sudo apt-get -y update
 # Install nginx with zero prompts                                                                                       
 sudo apt-get -y install nginx
 # modify /var/www recursively
-sudo chown -R ubuntu /var/www
+# sudo chown -R ubuntu /var/www
 # Change default content of nginx
 echo "Hello World" | sudo tee /var/www/html/index.html
 # test if running successfully
 sudo nginx -t
 # Service reload
+sudo service nginx start
+# service reload
 sudo service nginx reload
