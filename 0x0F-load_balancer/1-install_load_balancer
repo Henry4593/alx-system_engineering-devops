@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
-# install load balancer
+# Install HAProxy load balancer
 
 
 echo -e "Updating and doing some minor checks...\n"
 
 function install() {
+	# Check if package exists
 	command -v "$1" &> /dev/null
 
 	#shellcheck disable=SC2181
@@ -22,7 +23,7 @@ install haproxy #install haproxy
 
 echo -e "\nSetting up some minor stuff.\n"
 
-# backup default server config file
+# Backup default config
 sudo cp /etc/haproxy/haproxy.cfg haproxy_default.backup
 
 server_config=\
@@ -44,14 +45,14 @@ backend aciel-tech-backend
     server 308421-web-02 18.204.7.152:80 check
 "
 
-# shellcheck disable=SC2154
+# Write server config
 echo "$server_config" | sudo dd status=none of=/etc/haproxy/haproxy.cfg
 
-# enable haproxy to be started by init script
+# Enable HAProxy auto-start
 echo "ENABLED=1" | sudo dd status=none of=/etc/default/haproxy
 
 echo "configured - Roundrobin On web-01 & web-02"
-
+# Check and start/restart HAProxy
 if [ "$(pgrep -c haproxy)" -le 0 ]; then
 	sudo service haproxy start
 else
