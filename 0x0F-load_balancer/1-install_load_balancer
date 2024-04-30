@@ -1,15 +1,13 @@
 #!/usr/bin/env bash
+# Script to install and configure a load balancer (HAProxy)
 
-# Script to Install and Configure HAProxy Load Balancer
+echo -e "Updating and doing some minor checks...\n"
 
-## Update and Perform System Checks (Quiet Mode)
-echo -e "Updating package lists and performing preliminary checks...\n"
-
-## Function to Install Packages (Quiet Mode)
 function install() {
-  # Check if package is already installed (suppress output)
+  # Checks if package exists using command -v
   if ! command -v "$1" &> /dev/null; then
-    echo -e "  Installing: $1 (quiet mode)"
+    echo -e "  Installing: $1\n"
+    # Perform update quietly and install the specified package quietly using sudo
     sudo apt-get update -y -qq && sudo apt-get install -y "$1" -qq
     echo -e "\n"
   else
@@ -17,50 +15,47 @@ function install() {
   fi
 }
 
-# Install HAProxy using the install function
+# Install HAProxy load balancer
 install haproxy
 
-## Configure HAProxy Settings
+echo -e "\nSetting up additional configurations...\n"
 
-echo -e "\nConfiguring HAProxy...\n"
-
-# Backup default configuration (silent mode)
+# Backup the default HAProxy configuration file
 sudo cp /etc/haproxy/haproxy.cfg haproxy_default.backup
 
-# Define HAProxy configuration (round-robin)
+# Define the HAProxy configuration with comments explaining each section
 server_config="
 defaults
-  mode http
-  timeout client 15s
-  timeout connect 10s
-  timeout server 15s
-  timeout http-request 10s
+  # Global settings
+  mode http         # HAProxy operates in HTTP mode
+  timeout client 15s  # Timeout for client inactivity
+  timeout connect 10s # Timeout for connection establishment
+  timeout server 15s  # Timeout for server response
+  timeout http-request 10s  # Timeout for receiving complete HTTP request
 
 frontend aciel-tech-frontend
-  bind *:80
-  default_backend aciel-tech-backend
+  # Frontend service named aciel-tech-frontend
+  bind *:80          # Listens on all interfaces ( *: ) on port 80
+  default_backend aciel-tech-backend  # Default backend to forward requests to
 
 backend aciel-tech-backend
-  balance roundrobin
-  server 308421-web-01 54.237.217.113:80 check
-  server 308421-web-02 18.204.7.152:80 check
+  # Backend service named aciel-tech-backend
+  balance roundrobin  # Distributes requests using round-robin algorithm
+  server 308421-web-01 54.237.217.113:80 check  # Server named 308421-web-01 with health checks
+  server 308421-web-02 18.204.7.152cd :80 check  # Server named 308421-web-02 with health checks
 "
 
-# Write configuration to file (suppress output, no truncation)
+# Write the server configuration to the HAProxy configuration file, ignoring errors
 echo "$server_config" | sudo dd status=none of=/etc/haproxy/haproxy.cfg
 
-# Enable HAProxy startup via init script (silent mode)
+# Enable HAProxy to start automatically at system boot
 echo "ENABLED=1" | sudo dd status=none of=/etc/default/haproxy
 
-echo -e "Configured HAProxy for round-robin load balancing between web-01 and web-02.\n"
+echo "Configured load balancer - Round Robin on web-01 & web-02"
 
-## Start or Restart HAProxy Service
-
-# Check if HAProxy is running
-if [[ $(pgrep -c haproxy) -le 0 ]]; then
-  # Start HAProxy if not running
+# Check if HAProxy is running, if not start it, otherwise restart it
+if [ "$(pgrep -c haproxy)" -le 0 ]; then
   sudo service haproxy start
 else
-  # Restart HAProxy if already running
   sudo service haproxy restart
 fi
