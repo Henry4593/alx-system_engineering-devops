@@ -28,8 +28,7 @@ echo -e "\nConfiguring HAProxy...\n"
 sudo cp /etc/haproxy/haproxy.cfg haproxy_default.backup
 
 # Define HAProxy configuration (round-robin)
-server_config=\
-"
+server_config="
 defaults
   mode http
   timeout client 15s
