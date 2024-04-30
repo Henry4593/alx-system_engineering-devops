@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+
+## Install and Configure HAProxy for Load Balancing (lb-01)
+
+# Ensure Up-to-Date Package Lists
+sudo apt-get update
+
+# Install HAProxy
+sudo apt-get install -y haproxy
+
+# Configure HAProxy (Frontend & Backend with Round Robin)
+server_config="
+frontend Henry4593_frontend
+  bind *:80  # Listen on port 80
+  mode http   # Operate in HTTP mode
+  default_backend besthor_backend
+
+backend Henry4593_backend
+  balance roundrobin  # Distribute traffic evenly
+  server 308421-web-01 54.237.217.113:80 check  # Add web-01 server
+  server 308421-web-02 18.204.7.152:80 check  # Add web-02 server
+"
+
+echo "$server_config" | sudo tee -a /etc/haproxy/haproxy.cfg
+
+# Enable HAProxy Startup via init Script
+echo "ENABLED=1" | sudo tee -a /etc/default/haproxy
+
+# Validate HAProxy Configuration
+sudo haproxy -c -f /etc/haproxy/haproxy.cfg
+
+# Restart HAProxy Service
+sudo service haproxy restart
