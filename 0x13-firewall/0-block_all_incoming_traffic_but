@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+# system udate
+echo -e "updating the system...\n"
+sudo apt-get update
+
+# installing firewall
+echo -e "installing firewall...\n"
+sudo apt-get install ufw -y
+
+# setting up default rules for traffic
+echo -e "setting up firewall...\n"
+echo -e "enabling only outgoing traffic...\n"
+sudo ufw default allow outgoing
+sudo ufw default deny incoming
+
+# setting up port rules
+echo -e "Allowing traffic on ports 22, 80, 443...\n"
+sudo ufw allow 22
+sudo ufw allow 80
+sudo ufw allow 443
+
+# enable firewall
+sudo ufw enable
+
+# success message
+echo -e "process completed with SUCCESS!\n"
