@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# Performs backup for the databases
 
 # Halt! If no secret key provided, display instructions and exit.  
 if [ -z "$1" ]; then
