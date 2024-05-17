@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+
+# Halt! If no secret key provided, display instructions and exit.  
+if [ -z "$1" ]; then
+  echo "Oops! This script needs a password to access the database."
+  echo "How to use: $0 <your_mysql_password>"
+  exit 1
+fi
+
+# Login info for MySQL
+MYSQL_USER="root"
+MYSQL_PASSWORD="$1"
+MYSQL_HOST="localhost"
+
+# Grab today's date for the backup filename
+CURRENT_DATE=$(date +"%d-%m-%Y")
+
+# Temporary file to store the MySQL data
+BACKUP_FILE="backup.sql"
+
+# Final compressed archive filename (date + .tar.gz)
+ARCHIVE_FILE="${CURRENT_DATE}.tar.gz"
+
+echo "Creating a snapshot of your MySQL data..."
+mysqldump --user=$MYSQL_USER --password=$MYSQL_PASSWORD --host=$MYSQL_HOST --all-databases > $BACKUP_FILE
+
+echo "Squeezing the data into a smaller archive..."
+tar -czf $ARCHIVE_FILE $BACKUP_FILE
+
+echo "Backup finished! Find it here: $ARCHIVE_FILE"
