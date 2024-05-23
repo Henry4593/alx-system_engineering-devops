@@ -15,6 +15,7 @@ if __name__ == "__main__":
 
     # Get the employee ID from the command-line argument
     employee_id = int(sys.argv[1])
+    USER_ID = sys.argv[1]
     # API endpoint
     users_url = "https://jsonplaceholder.typicode.com/users/"
     todos_url = "https://jsonplaceholder.typicode.com/todos/"
@@ -40,7 +41,7 @@ if __name__ == "__main__":
                     "username": employee_username
                 })
 
-        with open('USER_ID.json', 'w', encoding="utf-8") as file:
+        with open('{}.json'.format(USER_ID), 'w', encoding="utf-8") as file:
             json.dump(my_dict, file)
     else:
         sys.exit(1)
