@@ -32,7 +32,7 @@ if __name__ == "__main__":
         users = users_res.json()
         employee_username = users[employee_id - 1]["username"]
 
-        with open('USER_ID.csv', 'w', newline="") as file:
+        with open('{}.csv'.format(employee_id), 'w', newline="") as file:
             for todo in todos:
                 if (todo["userId"]) == employee_id:
                     writer = csv.writer(file, quoting=csv.QUOTE_ALL)

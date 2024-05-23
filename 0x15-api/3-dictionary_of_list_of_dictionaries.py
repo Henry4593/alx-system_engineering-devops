@@ -25,8 +25,8 @@ if __name__ == "__main__":
         my_dict = {}
 
         for user in users:
-            employee_id = user["id"]
-            employee_username = user["username"]
+            employee_id = user.get("id")
+            employee_username = user.get("username")
             my_dict[employee_id] = []
 
             for todo in todos:
