@@ -1,6 +1,5 @@
 #!/usr/bin/python3
-# Analyzes employee tasks (completed/total) using JSONPlaceholder API
-
+"""Analyzes employee tasks (completed/total) using JSONPlaceholder API"""
 import requests
 import sys
 
@@ -13,7 +12,6 @@ if __name__ == "__main__":
     employee_id = int(sys.argv[1])
     users_url = "https://jsonplaceholder.typicode.com/users/"
     todos_url = "https://jsonplaceholder.typicode.com/todos/"
-
     todos_res = requests.get(todos_url)
     users_res = requests.get(users_url)
 
