@@ -1,9 +1,10 @@
 #!/usr/bin/python3
-# Script to analyze employee tasks using JSONPlaceholder API and write csv file
-
+"""Script to analyze employee tasks using JSONPlaceholder API and
+write csv file
+"""
+import csv
 import requests
 import sys
-import csv
 
 
 if __name__ == "__main__":
