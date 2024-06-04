@@ -1,10 +1,8 @@
 #!/usr/bin/python3
 '''A module for interacting with the Reddit API.'''
+
 import requests
-
-
-BASE_URL = 'https://www.reddit.com'
-'''Base URL for Reddit API requests.'''
+from sys import argv
 
 
 def top_ten(subreddit):
@@ -15,35 +13,17 @@ def top_ten(subreddit):
         subreddit (str): The subreddit to query.
 
     Returns:
-        None
-
-    Prints:
         The titles of the top 10 posts, or None if the request fails.
     '''
-    api_headers = {
-        'Accept': 'application/json',
-        'User-Agent': ' '.join([
-            'Mozilla/5.0 (Windows NT 10.0; Win64; x64)',
-            'AppleWebKit/537.36 (KHTML, like Gecko)',
-            'Chrome/97.0.4692.71',
-            'Safari/537.36',
-            'Edg/97.0.1072.62'
-        ])
-    }
-    sort = 'top'
-    limit = 10
-    res = requests.get(
-        '{}/r/{}/.json?sort={}&limit={}'.format(
-            BASE_URL,
-            subreddit,
-            sort,
-            limit
-        ),
-        headers=api_headers,
-        allow_redirects=False
-    )
-    if res.status_code == 200:
-        for post in res.json()['data']['children'][0:10]:
-            print(post['data']['title'])
-    else:
+    user = {'User-Agent': 'Lizzie'}
+    url = requests.get('https://www.reddit.com/r/{}/hot/.json?limit=10'
+                       .format(subreddit), headers=user).json()
+    try:
+        for post in url.get('data').get('children'):
+            print(post.get('data').get('title'))
+    except Exception:
         print(None)
+
+
+if __name__ == "__main__":
+    top_ten(argv[1])
