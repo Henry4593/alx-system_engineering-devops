@@ -5,8 +5,7 @@ import requests
 
 
 def number_of_subscribers(subreddit):
-    '''
-    Fetch the subscriber count for a given subreddit.
+    '''Fetch the subscriber count for a given subreddit.
 
     Args:
         subreddit (str): The subreddit to query.

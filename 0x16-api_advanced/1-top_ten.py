@@ -6,8 +6,7 @@ from sys import argv
 
 
 def top_ten(subreddit):
-    '''
-        Fetch and print the titles of the top 10 posts from a subreddit.
+    '''Fetch and print the titles of the top 10 posts from a subreddit.
 
     Args:
         subreddit (str): The subreddit to query.
