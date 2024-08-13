@@ -4,6 +4,16 @@
 import requests
 
 
+def get_session():
+    """Create a requests session with the appropriate headers."""
+    session = requests.Session()
+    session.headers.update({
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\
+        /537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3"
+    })
+    return session
+
+
 def number_of_subscribers(subreddit):
     '''Fetch the subscriber count for a given subreddit.
 
@@ -13,12 +23,12 @@ def number_of_subscribers(subreddit):
     Returns:
         int: The number of subscribers, or 0 if the request fails.
 
-    Note:This function sends a GET request to the Reddit API and parses the
+    Note: This function sends a GET request to the Reddit API and parses the
     response.
     '''
-    url = "https://www.reddit.com/r/{}/about.json".format(subreddit)
-    headers = {"User-Agent": "Mozilla/5.0"}
-    response = requests.get(url, headers=headers, allow_redirects=False)
+    session = get_session()
+    url = f"https://www.reddit.com/r/{subreddit}/about.json"
+    response = session.get(url, allow_redirects=False)
     if response.status_code == 404:
         return 0
     data = response.json()
