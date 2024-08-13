@@ -26,11 +26,15 @@ def number_of_subscribers(subreddit):
     Note: This function sends a GET request to the Reddit API and parses the
     response.
     '''
-    session = get_session()
-    url = f"https://www.reddit.com/r/{subreddit}/about.json"
-    response = session.get(url, allow_redirects=False)
-    if response.status_code == 404:
+    try:
+        session = get_session()
+        url = f"https://www.reddit.com/r/{subreddit}/about.json"
+        response = session.get(url, allow_redirects=False)
+        if response.status_code == 200:
+            data = response.json().get("data")
+            num_of_subscribers = data.get("subscribers")
+            return num_of_subscribers
         return 0
-    data = response.json()
-    subscribers = data.get("data").get("subscribers")
-    return subscribers
+
+    except requests.exceptions.RequestException:
+        return 0
