@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
-# reloads gunicorn without any downtime
-pkill -HUP gunicorn
+# gracefully reload gunicorn
+
+ps aux | grep gunicorn | awk '{ print $2 }' | xargs kill -HUP
