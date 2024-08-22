@@ -1,1 +1,3 @@
-Lets see
+#!/usr/bin/env bash
+# reloads gunicorn without any downtime
+pkill -HUP gunicorn
