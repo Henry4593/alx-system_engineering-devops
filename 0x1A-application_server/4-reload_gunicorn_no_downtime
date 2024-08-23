@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 # gracefully reload gunicorn
 
-pgrep gunicorn | xargs kill -HUP
+pgrep -f "gunicorn.*$GUNICORN_CONFIG_FILE" | xargs kill -SIGTERM
